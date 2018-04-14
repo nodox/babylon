@@ -1,0 +1,34 @@
+{
+  "name": "stripe-connect-rocketrides",
+  "description": "A sample on-demand platform running on top of Stripe Connect.",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Romain Huet",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stripe/stripe-connect-rocketrides.git"
+  },
+  "engines": {
+    "node": ">=7.7.4"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.2",
+    "debug": "^2.6.8",
+    "express": "^4.15.3",
+    "moment": "^2.21.0",
+    "mongoose": "^4.10.2",
+    "morgan": "^1.8.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "pug": "^2.0.0-rc.1",
+    "request": "^2.81.0",
+    "stripe": "^4.23.0"
+  }
+}
