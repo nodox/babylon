@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react'
 import HomeApp from './pages/home/HomeApp';
+import UserApp from './pages/user/UserApp';
+
 
 // helpful routing tutorial
 // https://www.sitepoint.com/react-router-v4-complete-guide/
@@ -19,14 +21,15 @@ class App extends Component {
             <Link to="/">Home</Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/merchant/login">Login</Link>
+            <Link to="/user/login">Login</Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/merchant/signup">Signup</Link>
+            <Link to="/user/signup">Signup</Link>
           </Menu.Item>
         </Menu>
 
         <Route exact path="/" component={HomeApp} />
+        <Route path="/user" component={UserApp} />
       </div>
     );
   }
