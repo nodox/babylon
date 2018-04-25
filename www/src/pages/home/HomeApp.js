@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Route, Switch } from 'react-router-dom';
-import Jumbotron from './components/Jumbotron';
+import Jumbotron from '../../components/Jumbotron';
 import daniel from './daniel.jpg';
 
 import {
@@ -25,7 +25,7 @@ const themes = [
   'Lens',
 ]
 
-const Home = () => (
+const HomeApp = () => (
     <div>
       <Grid celled='internally' columns='equal' stackable>
 
@@ -47,7 +47,7 @@ const Home = () => (
             <Card.Group centered itemsPerRow={3}>
               {themes.map((obj, idx) => {
                 return (
-                  <Card key={idx}>
+                  <Card key={idx} as={Link} to={`/user/${idx}`}>
                     <Image src={daniel} />
                     <Card.Content>
                       <Card.Header>
@@ -75,4 +75,4 @@ const Home = () => (
     </div>
 )
 
-export default Home
+export default HomeApp
