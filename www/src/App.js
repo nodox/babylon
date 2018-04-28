@@ -5,7 +5,9 @@ import { Menu } from 'semantic-ui-react'
 import HomeApp from './pages/home/HomeApp';
 import UserApp from './pages/user/UserApp';
 import ThemesApp from './pages/themes/ThemesApp';
-
+import { Navbar } from './components/Navbar';
+import { firebaseApp } from './config/firebase'
+import { AppContext } from './context/AppContext'
 
 // helpful routing tutorial
 // https://www.sitepoint.com/react-router-v4-complete-guide/
@@ -13,26 +15,32 @@ import ThemesApp from './pages/themes/ThemesApp';
 // https://github.com/pillarjs/path-to-regexp#custom-match-parameters
 
 class App extends Component {
+  state = {
+    isSignedIn: undefined,
+    user: undefined,
+  }
+
+  componentDidMount() {
+    this.unregisterAuthObserver = firebaseApp.auth().onAuthStateChanged((user) => {
+      this.setState({
+        isSignedIn: !!user,
+        user: user,
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.unregisterAuthObserver();
+  }
+
   render() {
     return (
-      <div>
-        <Menu inverted>
-          <Menu.Item>Gatsby Manor</Menu.Item>
-          <Menu.Item>
-            <Link to="/">Home</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/user/login">Login</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/user/signup">Signup</Link>
-          </Menu.Item>
-        </Menu>
-
+      <AppContext.Provider value={this.state}>
+        <Navbar />
         <Route exact path="/" component={HomeApp} />
         <Route path="/user" component={UserApp} />
         <Route path="/themes" component={ThemesApp} />
-      </div>
+      </AppContext.Provider>
     );
   }
 }
