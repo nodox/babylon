@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -10,9 +10,7 @@ class Reviews extends React.Component {
   render() {
     return (
       <div>
-        Reviews Id: {this.props.match.params.id}
-        A review contains a star rating, a user name,
-        and a short description.
+        <Segment>Hello world! I left a comment.</Segment>
       </div>
     );
   }
