@@ -47,7 +47,7 @@ const HomeApp = () => (
             <Card.Group centered itemsPerRow={3}>
               {themes.map((obj, idx) => {
                 return (
-                  <Card key={idx} as={Link} to={`/themes/${idx}`}>
+                  <Card key={idx} as={Link} to={`/themes/${idx}/details`}>
                     <Image src={daniel} />
                     <Card.Content>
                       <Card.Header>
