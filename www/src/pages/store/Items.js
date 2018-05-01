@@ -3,16 +3,12 @@ import { Link, Route } from 'react-router-dom';
 import daniel from './daniel.jpg';
 
 import {
-  Container,
   Grid,
   Header,
-  List,
   Card,
   Image,
   Button,
-  Segment,
-  Menu,
-  Comment
+  Modal,
 } from 'semantic-ui-react'
 
 
@@ -23,37 +19,40 @@ const themes = [
 ]
 
 
-class Store extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+class Items extends React.Component {
 
   render() {
     return (
       <div>
-        <Grid>
+        <Grid celled='internally' columns='equal' stackable>
 
           <Grid.Row textAlign='center'>
             <Grid.Column>
               <Header as='h1'>
-                Store List
+                Store List Items
               </Header>
             </Grid.Column>
           </Grid.Row>
 
           <Grid.Row>
             <Grid.Column>
-              <Card.Group centered itemsPerRow={1}>
+              <Card.Group centered itemsPerRow={3}>
                 {themes.map((obj, idx) => {
                   return (
-                    <Card key={idx} as={Link} to={`/themes/${idx}/details`}>
+                    <Card key={idx} as={Link} to={`${this.props.match.url}/items/${idx}`}>
+                      <Image src={daniel} />
                       <Card.Content>
                         <Card.Header>
-                          Steve Sanders
+                          {obj}
                         </Card.Header>
+
                         <Card.Description>
-                          Steve wants to add you to the group <strong>best friends</strong>
+                          Matthew is a musician living in Nashville.
                         </Card.Description>
+
+                      </Card.Content>
+                      <Card.Content extra>
+                        <Button basic fluid color='red'>Edit</Button>
                       </Card.Content>
                     </Card>
                   )
@@ -68,4 +67,4 @@ class Store extends React.Component {
   }
 }
 
-export default Store;
+export default Items;
