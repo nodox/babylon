@@ -53,8 +53,14 @@ class Orders extends React.Component {
                         </Card.Header>
 
                         <Card.Description>
-                          Matthew is a musician living in Nashville.
+                          <List>
+                            <List.Item>Order Id</List.Item>
+                            <List.Item>License</List.Item>
+                          </List>
                         </Card.Description>
+                      </Card.Content>
+                      <Card.Content extra>
+                        <Button basic fluid color='black'>Download</Button>
                       </Card.Content>
                     </Card>
                   )
