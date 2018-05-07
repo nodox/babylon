@@ -36,6 +36,7 @@ class Items extends React.Component {
 
           <Grid.Row>
             <Grid.Column>
+              <Button as={Link} to={`${this.props.match.url}/items/new`}>Upload Item</Button>
               <Card.Group centered itemsPerRow={3}>
                 {themes.map((obj, idx) => {
                   return (
