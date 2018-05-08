@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Route } from 'react-router-dom';
 import daniel from './daniel.jpg';
+import validator from 'validator';
 
 import {
   Grid,
@@ -14,12 +15,23 @@ import {
   Segment,
 } from 'semantic-ui-react'
 
+import { FormWizard, Step } from '../../shared/form-wizard/FormWizard'
 
-const themes = [
-  'Massively',
-  'Stellar',
-  'Photon',
-]
+
+import { ItemDetailsFieldSet } from './components/ItemDetailsFieldSet'
+import { ItemFileFieldSet } from './components/ItemFileFieldSet'
+import { ItemPriceDataFieldSet } from './components/ItemPriceDataFieldSet'
+
+import { media } from './media'
+import styled from 'styled-components';
+
+const StyledForm = styled(Form)`
+
+  ${media.medium`
+    width: 50%;
+    margin: auto;
+  `}
+`;
 
 
 class Upload extends React.Component {
@@ -32,8 +44,7 @@ class Upload extends React.Component {
           <Grid.Row textAlign='center'>
             <Grid.Column>
               <Header as='h1'>
-                Upload Item Details
-
+                Upload Item
               </Header>
             </Grid.Column>
           </Grid.Row>
@@ -41,66 +52,11 @@ class Upload extends React.Component {
           <Grid.Row>
             <Grid.Column>
 
-              <Form size='large'>
-                <Segment>
-                  <Form.Input
-                    fluid
-                    type="file"
-                    label="Thumbnail preview"
-                  />
-
-                  <Form.Input
-                    fluid
-                    type="file"
-                    multiple
-                    label="Upload your theme project"
-                  />
-
-                  <Form.Input
-                    fluid
-                    label="What is the name of your theme?"
-                    placeholder='Name'
-                  />
-
-                  <Form.Input
-                    fluid
-                    label="What description do you want customers to see?"
-                    placeholder='Description'
-                  />
-
-                  <Form.Input
-                    fluid
-                    label="What standard price do you want to set?"
-                    placeholder='Standard Price'
-                  />
-
-                  <Form.Input
-                    fluid
-                    label="What commercial price do you want to set?"
-                    placeholder='Commercial Price'
-                  />
-
-                  <Form.Input
-                    fluid
-                    label="Where is the demo url?"
-                    placeholder='Demo url'
-                  />
-
-                  <Form.Input
-                    fluid
-                    label="How do customers get support for your theme?"
-                    placeholder='email'
-                  />
-
-                  <Form.Field label='What license will you use?' control='select'>
-                    <option value='standard'>Gatsby Manor Standard</option>
-                    <option value='commercial'>Gatsby Manor Commercial</option>
-                    <option value='custom'>I will provide my own license</option>
-                  </Form.Field>
-
-                  <Button color='blue' fluid size='large'>Submit</Button>
-                </Segment>
-              </Form>
+              <FormWizard as={StyledForm}>
+                <Step render={() => <ItemFileFieldSet />} />
+                <Step render={() => <ItemDetailsFieldSet />} />
+                <Step render={() => <ItemPriceDataFieldSet />} />
+              </FormWizard>
 
             </Grid.Column>
           </Grid.Row>
