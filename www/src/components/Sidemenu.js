@@ -7,6 +7,7 @@ import { AppContext } from '../context/AppContext'
 export class Sidemenu extends React.Component {
   handleSignOut = (e) => {
     firebaseApp.auth().signOut();
+    this.props.toggleVisibility()
   }
 
   render() {
@@ -33,6 +34,7 @@ export class Sidemenu extends React.Component {
     return (
       <Sidebar
         as={Menu}
+        onClick={() => this.props.toggleVisibility()}
         animation='push'
         width='wide'
         direction='right'
