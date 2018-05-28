@@ -44,7 +44,7 @@ class App extends Component {
     return (
       <AppContext.Provider value={this.state}>
         <Sidebar.Pushable as={StyledPushable}>
-          <Sidemenu visible={this.state.visible} />
+          <Sidemenu visible={this.state.visible} toggleVisibility={() => this.toggleVisibility()}/>
           <Sidebar.Pusher>
             <Menu inverted>
               <Menu.Item>Gatsby Manor</Menu.Item>
