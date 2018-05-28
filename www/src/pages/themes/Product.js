@@ -15,7 +15,7 @@ import april from './april.jpg'
 // http://www.mojomarketplace.com/item/pav-styleshop-responsive-opencart-2-0-themes
 // Similar to this without shifting upwards, use a gray background
 class Product extends React.Component {
-  state = { activeItem: 'home' }
+  state = { activeItem: 'details' }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
