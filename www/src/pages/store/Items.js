@@ -53,6 +53,9 @@ class Items extends React.Component {
 
                       </Card.Content>
                       <Card.Content extra>
+                        <p>$45</p>
+                      </Card.Content>
+                      <Card.Content extra>
                         <Button basic fluid color='red'>Edit</Button>
                       </Card.Content>
                     </Card>
