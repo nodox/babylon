@@ -54,15 +54,13 @@ const HomeApp = () => (
                         {obj}
                       </Card.Header>
 
-                      <Card.Meta>
-                        <span className='date'>
-                          Joined in 2015
-                        </span>
-                      </Card.Meta>
-
                       <Card.Description>
                         Matthew is a musician living in Nashville.
                       </Card.Description>
+                    </Card.Content>
+
+                    <Card.Content extra>
+                      <p>$22</p>
                     </Card.Content>
                   </Card>
                 )
