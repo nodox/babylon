@@ -1,3 +1,4 @@
+# Stage 1 - build environment
 FROM node:9.7.1 as build
 WORKDIR /usr/src/app
 COPY package.json yarn.lock ./

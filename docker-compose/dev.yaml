@@ -1,4 +1,6 @@
-version: '3'
+# docker-compose/dev.yaml
+
+version: '3.6'
 services:
   www:
     build:

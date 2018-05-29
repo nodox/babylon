@@ -1,9 +1,13 @@
+# Dockerfile.dev
+
 FROM node:9.7.1
+
 WORKDIR /usr/src/app
+
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . ./usr/src/app
 RUN yarn
 
-EXPOSE 8080
+EXPOSE 3000
 CMD ["npm", "start"]
