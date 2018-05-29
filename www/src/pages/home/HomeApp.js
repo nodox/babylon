@@ -2,18 +2,19 @@ import React from 'react'
 import { Link, Route, Switch } from 'react-router-dom';
 import Jumbotron from '../../components/Jumbotron';
 import daniel from './daniel.jpg';
-import { AutoSizer, List } from 'react-virtualized'
-import 'react-virtualized/styles.css'
-
-
+import LazyRender from 'react-lazy-render'
 import {
+  Container,
   Grid,
   Header,
+  List,
   Card,
   Image,
   Button,
+  Segment,
   Menu,
 } from 'semantic-ui-react'
+
 
 const themes = [
   'Massively',
@@ -23,6 +24,17 @@ const themes = [
   'Joyful',
   'Lens',
 ]
+
+var children = [];
+for (var i = 0; i < 5000; i++) {
+  // each child must have a consistent height
+  children.push(
+    <div style={{ height: 20 }}>
+      #{i}
+    </div>
+  );
+}
+
 
 const HomeApp = () => (
     <div>
@@ -42,38 +54,9 @@ const HomeApp = () => (
         </Grid.Row>
 
         <Grid.Row>
-          <Grid.Column style={{ display: 'flex', flex: 1 }}>
+          <Grid.Column>
 
-            <AutoSizer>
-              {({ height, width }) => (
-                <List
-                  height={height}
-                  width={width}
-                  rowHeight={50}
-                  rowCount={themes.length}
-                  rowRenderer={({ index, key, style }) => {
-                    return (
-                      <Card key={key} as={Link} to={`/themes/${index}/details`}>
-                        <Image src={daniel} />
-                        <Card.Content>
-                          <Card.Header>
-                            {themes[index]}
-                          </Card.Header>
 
-                          <Card.Description>
-                            Matthew is a musician living in Nashville.
-                          </Card.Description>
-                        </Card.Content>
-
-                        <Card.Content extra>
-                          <p>$22</p>
-                        </Card.Content>
-                      </Card>
-                    )
-                  }}
-                />
-              )}
-            </AutoSizer>
           </Grid.Column>
         </Grid.Row>
 
