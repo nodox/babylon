@@ -1,0 +1,10 @@
+version: '3'
+services:
+  www:
+    build:
+      context: ../www
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ../www:/usr/src/app
