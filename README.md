@@ -15,3 +15,12 @@ to watch for code changes.
 - `docker-compose -p babylon_prod -f docker-compose/prod.yaml up --build`
 
 Builds a local version of the production ready image suite.
+
+## Connect to existing containers
+If you want to connect to an existing, running container use:
+- `$ docker exec -it <CONTAINER_NAME> <COMMAND>`
+
+Examples:
+
+Connect to the database container to inspect database
+- `$ docker exec -it mongo_db mongo`
