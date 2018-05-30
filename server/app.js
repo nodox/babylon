@@ -16,7 +16,7 @@ app.set('trust proxy', true);
 
 // MongoDB.
 const mongoose = require('mongoose');
-mongoose.connect(config.mongo.uri, { useMongoClient: true });
+mongoose.connect(config.mongo.uri);
 
 // View engine setup.
 app.set('view engine', 'pug');
