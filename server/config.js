@@ -5,7 +5,7 @@ module.exports = {
   appName: 'Rocket Rides',
 
   // Server port.
-  port: 3000,
+  port: 5000,
 
   // Secret for cookie sessions.
   secret: 'YOUR_SECRET',
@@ -23,7 +23,7 @@ module.exports = {
 
   // Configuration for MongoDB.
   mongo: {
-    uri: 'mongodb://localhost/rocketrides'
+    uri: 'mongodb://db/rocketrides'
   },
 
   // Configuration for Google Cloud (only useful if you want to deploy to GCP).
