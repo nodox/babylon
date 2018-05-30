@@ -13,7 +13,8 @@
     "node": ">=7.7.4"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -30,5 +31,8 @@
     "pug": "^2.0.0-rc.1",
     "request": "^2.81.0",
     "stripe": "^4.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
   }
 }
