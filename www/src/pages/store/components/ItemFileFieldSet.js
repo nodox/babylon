@@ -4,9 +4,8 @@ import {
 } from 'semantic-ui-react'
 
 import {
-  FormContext,
   FileField,
-} from '../../../shared/form-wizard/FormWizard'
+} from '../../../shared/FormWizard'
 
 class ItemFileFieldSet extends React.Component {
   constructor(props){
@@ -17,20 +16,12 @@ class ItemFileFieldSet extends React.Component {
 
   render() {
     return (
-      <FormContext.Consumer>
-        {(context) => {
-          return (
-            <React.Fragment>
-              <FileField
-                name="item_file"
-                label="Upload your project"
-                updateFormDataHandler={(e) => context.updateFormData(e)}
-              />
-            </React.Fragment>
-          )
-        }}
-      </FormContext.Consumer>
-
+      <React.Fragment>
+        <FileField
+          name="item_file"
+          label="Upload your project"
+        />
+      </React.Fragment>
     )
   }
 
