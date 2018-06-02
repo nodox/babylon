@@ -10,6 +10,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const moment = require('moment');
+const cors = require('cors');
 
 const app = express();
 app.set('trust proxy', true);
@@ -33,6 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Initialize Passport and restore any existing authentication state.
@@ -56,6 +58,12 @@ app.use('/pilots/stripe', require('./routes/pilots/stripe'));
 app.use('/api/settings', require('./routes/api/settings'));
 app.use('/api/rides', require('./routes/api/rides'));
 app.use('/api/passengers', require('./routes/api/passengers'));
+
+app.post('/api/nodox/login', (req, res) => {
+  const user = req.body
+  const { profileObj } = user
+  return res.status(200).json(profileObj)
+});
 
 // Index page for Rocket Rides.
 app.get('/', (req, res) => {
