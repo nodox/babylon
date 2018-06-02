@@ -1,15 +1,9 @@
 import React from 'react';
 import { Form, Button } from 'semantic-ui-react'
 
-import { FormContext } from './FormContext'
-
-import { StepList } from './stepper/StepList'
-import { Step } from './stepper/Step'
-
-import { EmailField } from './fields/EmailField'
-import { FileField } from './fields/FileField'
-import { NumberField } from './fields/NumberField'
-import { TextField } from './fields/TextField'
+import { FormContext } from './context'
+import { StepList, Step } from './stepper'
+import { EmailField, FileField, NumberField, TextField } from './fields'
 
 class FormWizard extends React.Component {
   constructor(props) {
@@ -36,8 +30,7 @@ class FormWizard extends React.Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-
-    console.log(this.state.formData);
+    this.props.handleFormSubmit(this.state.formData)
   }
 
   render() {
@@ -64,7 +57,6 @@ class FormWizard extends React.Component {
 
 
 export {
-  FormContext,
   FormWizard,
   Step,
   EmailField,

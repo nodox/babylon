@@ -15,7 +15,7 @@ import {
   Segment,
 } from 'semantic-ui-react'
 
-import { FormWizard, Step } from '../../shared/form-wizard/FormWizard'
+import { FormWizard, Step, FileField } from '../../shared/FormWizard'
 
 
 import { ItemDetailsFieldSet } from './components/ItemDetailsFieldSet'
@@ -36,6 +36,10 @@ const StyledForm = styled(Form)`
 
 class Upload extends React.Component {
 
+  handleFormSubmit = (data) => {
+    console.log('formdata', data);
+  }
+
   render() {
     return (
       <div>
@@ -52,10 +56,17 @@ class Upload extends React.Component {
           <Grid.Row>
             <Grid.Column>
 
-              <FormWizard as={StyledForm}>
-                <Step render={() => <ItemFileFieldSet />} />
-                <Step render={() => <ItemDetailsFieldSet />} />
-                <Step render={() => <ItemPriceDataFieldSet />} />
+              <FormWizard
+                as={StyledForm}
+                handleFormSubmit={this.handleFormSubmit}>
+                <Step>
+                  <FileField
+                    name="item_file"
+                    label="Upload your project"
+                  />
+                </Step>
+                <Step component={ItemDetailsFieldSet} />
+                <Step component={ItemPriceDataFieldSet} />
               </FormWizard>
 
             </Grid.Column>
