@@ -21,13 +21,16 @@ project.
 
 
 ### Development flow
-- `docker-compose -p babylon_dev -f docker-compose/dev.yaml up`
+`$ docker-compose -p babylon_dev -f docker-compose/dev.yaml up`
+
 Builds a image suite for local dev with live reload server (create-react-app)
 to watch for code changes.
 
-- `docker-compose -p babylon_prod -f docker-compose/prod.yaml up --build`
+`$ docker-compose -p babylon_prod -f docker-compose/prod.yaml up --build`
+
 Builds a local version of the production ready image suite.
 
-- `$ docker exec -it <CONTAINER_NAME> <COMMAND>`
+`$ docker exec -it <CONTAINER_NAME> <COMMAND>`
+
 Connect to an existing, running container
 Ex: `$ docker exec -it mongo_db mongo`
