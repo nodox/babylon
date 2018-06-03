@@ -1,41 +1,46 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { firebaseApp } from '../../config/firebase'
 import { AppContext } from '../../context/AppContext'
-// Ideas for frontend auth
-// https://github.com/tylermcginnis/react-router-firebase-auth/blob/master/src/components/index.js
+
+import { GoogleLogin } from 'react-google-login';
+import axios from 'axios'
 
 const LoginView = (props) => {
-  const uiConfig = {
-    signInFlow: 'popup',
-    signInOptions: [
-      props.firebaseApp.auth.GoogleAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-      signInSuccess: () => false,
-    },
-  }
 
   let view = (<div>Loading...</div>)
-  if (props.isSignedIn !== undefined && !props.isSignedIn) {
+  if (props.isSignedIn === undefined) {
     view = (
-      <div>
-        <StyledFirebaseAuth uiConfig={uiConfig}
-                            firebaseAuth={props.firebaseApp.auth()}/>
-      </div>
+      <GoogleLogin
+        clientId="25338911788-8bjhrqpj2gci67p7qqof1rbk5lakvk2r.apps.googleusercontent.com"
+        buttonText="Login with Google"
+        onSuccess={(response) => responseGoogle(response, props.context)}
+        onFailure={responseGoogle}
+      />
     )
   } else if (props.isSignedIn) {
     view = (
       <div>
-        Hello {props.firebaseApp.auth().currentUser.displayName}. You are now signed In!
-        <a onClick={() => props.firebaseApp.auth().signOut()}>Sign-out</a>
+        Hello {props.context.user.givenName}. You are now signed In!
+        <a onClick={() => props.context.logout()}>Sign-out</a>
       </div>
     )
   }
 
   return view;
+}
+
+const responseGoogle = async (googleResponse, ctx) => {
+  const user = googleResponse
+
+  try {
+    const url = `http://localhost:5000/api/nodox/login`
+    const response = await axios.post(url, user)
+    ctx.login(response.data)
+
+  } catch (e) {
+    console.log('Error with Google auth:', e);
+  }
 }
 
 class Login extends React.Component {
@@ -44,7 +49,7 @@ class Login extends React.Component {
     return (
       <AppContext.Consumer>
         {context => (
-          <LoginView context={context} isSignedIn={context.isSignedIn} firebaseApp={firebaseApp}/>
+          <LoginView context={context} isSignedIn={context.isSignedIn} />
         )}
       </AppContext.Consumer>
     )

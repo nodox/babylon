@@ -1,13 +1,9 @@
 import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react'
-import { firebaseApp } from '../config/firebase'
 import { AppContext } from '../context/AppContext'
 
 export class Navbar extends React.Component {
-  handleSignOut = (e) => {
-    firebaseApp.auth().signOut();
-  }
 
   render() {
     const AuthenticatedMenu = () => (

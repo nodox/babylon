@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { Menu, Sidebar, Icon } from 'semantic-ui-react'
 import { Navbar } from './components/Navbar';
-import { firebaseApp } from './config/firebase'
 import { AppContext } from './context/AppContext'
 
 import HomeApp from './pages/home/HomeApp';
@@ -27,22 +26,30 @@ class App extends Component {
 
   toggleVisibility = () => this.setState({ visible: !this.state.visible })
 
-  componentDidMount() {
-    this.unregisterAuthObserver = firebaseApp.auth().onAuthStateChanged((user) => {
-      this.setState({
-        isSignedIn: !!user,
-        user: user,
-      });
+  login = (user) => {
+    this.setState({
+      isSignedIn: !!user,
+      user: user,
     });
   }
 
-  componentWillUnmount() {
-    this.unregisterAuthObserver();
+  logout = (user) => {
+    this.setState({
+      isSignedIn: undefined,
+      user: undefined,
+    });
   }
 
   render() {
+
+    const store = {
+      ...this.state,
+      login: this.login,
+      logout: this.logout,
+    }
+
     return (
-      <AppContext.Provider value={this.state}>
+      <AppContext.Provider value={store}>
         <Sidebar.Pushable as={StyledPushable}>
           <Sidemenu visible={this.state.visible} toggleVisibility={() => this.toggleVisibility()}/>
           <Sidebar.Pusher>
