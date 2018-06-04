@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const config = require('../../config');
-const stripe = require('stripe')(config.stripe.secretKey);
-const express = require('express');
+const config = require("../../config");
+const stripe = require("stripe")(config.stripe.secretKey);
+const express = require("express");
 const router = express.Router();
-const Pilot = require('../../models/pilot');
-const Passenger = require('../../models/passenger');
-const Ride = require('../../models/ride');
+const Pilot = require("../../models/pilot");
+const Passenger = require("../../models/passenger");
+const Ride = require("../../models/ride");
 
 // Note: For this demo, we're making the assumption that we're
 // going to always authenticate with the latest passenger.
@@ -18,7 +18,7 @@ const Ride = require('../../models/ride');
  *
  * Create a new ride with the corresponding parameters.
  */
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   // Important: For this demo, we're trusting the `amount` and `currency`
   // coming from the client request.
   // A real application should absolutely have the `amount` and `currency`
@@ -37,7 +37,7 @@ router.post('/', async (req, res, next) => {
       pilot: pilot.id,
       passenger: passenger.id,
       amount: amount,
-      currency: currency
+      currency: currency,
     });
     // Save the ride.
     await ride.save();
@@ -55,8 +55,8 @@ router.post('/', async (req, res, next) => {
         // Typically, the `amountForPilot` method simply computes `ride.amount * 0.8`.
         amount: ride.amountForPilot(),
         // The destination of this charge is the pilot's Stripe account.
-        account: pilot.stripeAccountId
-      }
+        account: pilot.stripeAccountId,
+      },
     });
     // Add the Stripe charge reference to the ride and save it.
     ride.stripeChargeId = charge.id;

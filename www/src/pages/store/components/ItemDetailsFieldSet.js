@@ -1,16 +1,12 @@
-import React from 'react'
+import React from "react";
 
-import {
-  EmailField,
-  TextField,
-  FileField,
-} from '../../../shared/FormWizard'
+import { EmailField, TextField, FileField } from "../../../shared/FormWizard";
 
 class ItemDetailsFieldSet extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
 
-    this.state = {}
+    this.state = {};
   }
 
   render() {
@@ -19,25 +15,25 @@ class ItemDetailsFieldSet extends React.Component {
         <FileField
           name="item_thumbnail_image"
           label="Thumbnail preview"
-          placeholder='Thumbnail image of item'
+          placeholder="Thumbnail image of item"
         />
 
         <TextField
           name="item_name"
           label="What is the name of your theme?"
-          placeholder='Name'
+          placeholder="Name"
         />
 
         <TextField
           name="item_description"
           label="What description do you want customers to see?"
-          placeholder='Description'
+          placeholder="Description"
         />
 
         <TextField
           name="item_demo_url"
           label="Where is the demo url?"
-          placeholder='Demo url'
+          placeholder="Demo url"
         />
 
         <EmailField
@@ -46,7 +42,7 @@ class ItemDetailsFieldSet extends React.Component {
           placeholder="Email address"
         />
       </React.Fragment>
-    )
+    );
   }
 }
- export { ItemDetailsFieldSet }
+export { ItemDetailsFieldSet };

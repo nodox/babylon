@@ -1,25 +1,24 @@
-import React from 'react'
+import React from "react";
 
 class StepList extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       currentStep: 0,
-      totalSteps: this.props.children.length - 1
-    }
+      totalSteps: this.props.children.length - 1,
+    };
   }
 
   goToPreviousStep = () => {
-    this.setState({ currentStep: this.state.currentStep - 1 })
-  }
+    this.setState({ currentStep: this.state.currentStep - 1 });
+  };
 
   goToNextStep = () => {
-    this.setState({ currentStep: this.state.currentStep + 1 })
-  }
+    this.setState({ currentStep: this.state.currentStep + 1 });
+  };
 
   render() {
-
     const children = React.Children.map(this.props.children, (child, index) => {
       return React.cloneElement(child, {
         isActive: index === this.state.currentStep,
@@ -28,12 +27,11 @@ class StepList extends React.Component {
         displaySubmit: this.state.currentStep === this.state.totalSteps,
         goToPreviousStep: () => this.goToPreviousStep(),
         goToNextStep: () => this.goToNextStep(),
-      })
-    })
+      });
+    });
 
-
-    return children
+    return children;
   }
 }
 
-export { StepList }
+export { StepList };

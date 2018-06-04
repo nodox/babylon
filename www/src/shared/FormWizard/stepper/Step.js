@@ -1,11 +1,10 @@
-import React from 'react'
-import { Grid } from 'semantic-ui-react'
-import { Previous } from '../buttons/Previous'
-import { Next } from '../buttons/Next'
-import { Submit } from '../buttons/Submit'
+import React from "react";
+import { Grid } from "semantic-ui-react";
+import { Previous } from "../buttons/Previous";
+import { Next } from "../buttons/Next";
+import { Submit } from "../buttons/Submit";
 
 class Step extends React.Component {
-
   render() {
     const {
       isActive,
@@ -14,7 +13,7 @@ class Step extends React.Component {
       displaySubmit,
       component,
       children,
-    } = this.props
+    } = this.props;
 
     if (isActive) {
       const NavSection = () => (
@@ -28,12 +27,10 @@ class Step extends React.Component {
               isActive={displayNext}
               goToNextStep={() => this.props.goToNextStep()}
             />
-            <Submit
-              isActive={displaySubmit}
-            />
+            <Submit isActive={displaySubmit} />
           </Grid.Row>
         </Grid>
-      )
+      );
 
       if (component) {
         return (
@@ -41,7 +38,7 @@ class Step extends React.Component {
             {React.createElement(component)}
             <NavSection />
           </React.Fragment>
-        )
+        );
       }
 
       if (children) {
@@ -50,12 +47,12 @@ class Step extends React.Component {
             {children}
             <NavSection />
           </React.Fragment>
-        )
+        );
       }
     }
 
-    return null
+    return null;
   }
 }
 
-export { Step }
+export { Step };

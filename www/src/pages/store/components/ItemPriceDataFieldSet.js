@@ -1,14 +1,12 @@
-import React from 'react'
+import React from "react";
 
-import {
-  NumberField,
-} from '../../../shared/FormWizard'
+import { NumberField } from "../../../shared/FormWizard";
 
 class ItemPriceDataFieldSet extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
 
-    this.state = {}
+    this.state = {};
   }
 
   render() {
@@ -17,17 +15,16 @@ class ItemPriceDataFieldSet extends React.Component {
         <NumberField
           name="item_standard_price"
           label="What standard price do you want to set?"
-          placeholder='Standard Price'
+          placeholder="Standard Price"
         />
 
         <NumberField
           name="item_commercial_price"
           label="What commercial price do you want to set?"
-          placeholder='Commercial Price'
+          placeholder="Commercial Price"
         />
       </React.Fragment>
-    )
+    );
   }
-
 }
- export { ItemPriceDataFieldSet }
+export { ItemPriceDataFieldSet };

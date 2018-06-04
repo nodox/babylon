@@ -1,19 +1,19 @@
-'use strict';
+"use strict";
 
-const config = require('../../config');
-const stripe = require('stripe')(config.stripe.secretKey);
-const express = require('express');
+const config = require("../../config");
+const stripe = require("stripe")(config.stripe.secretKey);
+const express = require("express");
 const router = express.Router();
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const Pilot = require('../../models/pilot');
-const Ride = require('../../models/ride');
-const Passenger = require('../../models/passenger');
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const Pilot = require("../../models/pilot");
+const Ride = require("../../models/ride");
+const Passenger = require("../../models/passenger");
 
 // Middleware that requires a logged-in pilot.
-function pilotRequired (req, res, next) {
+function pilotRequired(req, res, next) {
   if (!req.isAuthenticated()) {
-    return res.redirect('/pilots/login');
+    return res.redirect("/pilots/login");
   }
   next();
 }
@@ -27,21 +27,25 @@ function pilotRequired (req, res, next) {
  * Use the `pilotRequired` middleware to ensure that only logged-in
  * pilots can access this route.
  */
-router.get('/dashboard', pilotRequired, async (req, res) => {
+router.get("/dashboard", pilotRequired, async (req, res) => {
   const pilot = req.user;
   // Retrieve the balance from Stripe.
-  const balance = await stripe.balance.retrieve({ stripe_account: pilot.stripeAccountId });
+  const balance = await stripe.balance.retrieve({
+    stripe_account: pilot.stripeAccountId,
+  });
   // Fetch the pilot's recent rides.
   const rides = await pilot.listRecentRides();
-  const ridesTotalAmount = rides.reduce((a, b) => { return a + b.amountForPilot(); }, 0);
+  const ridesTotalAmount = rides.reduce((a, b) => {
+    return a + b.amountForPilot();
+  }, 0);
   // There are as maybe balances as currencies used.
   // This demo app only uses USD so we'll just use the first object.
-  res.render('dashboard', {
+  res.render("dashboard", {
     pilot: pilot,
     balanceAvailable: balance.available[0].amount,
     balancePending: balance.pending[0].amount,
     ridesTotalAmount: ridesTotalAmount,
-    rides: rides
+    rides: rides,
   });
 });
 
@@ -50,7 +54,7 @@ router.get('/dashboard', pilotRequired, async (req, res) => {
  *
  * Generate a test ride with sample data for the logged-in pilot.
  */
-router.post('/rides', pilotRequired, async (req, res) => {
+router.post("/rides", pilotRequired, async (req, res) => {
   const pilot = req.user;
   // Find a random passenger.
   const passenger = await Passenger.getRandom();
@@ -59,7 +63,7 @@ router.post('/rides', pilotRequired, async (req, res) => {
   const ride = new Ride({
     pilot: pilot.id,
     passenger: passenger.id,
-    amount: getRandomInt(1000, 10000)
+    amount: getRandomInt(1000, 10000),
   });
   // Save the ride.
   await ride.save();
@@ -79,8 +83,8 @@ router.post('/rides', pilotRequired, async (req, res) => {
         // Typically, the `amountForPilot` method simply computes `ride.amount * 0.8`.
         amount: ride.amountForPilot(),
         // The destination of this charge is the pilot's Stripe account.
-        account: pilot.stripeAccountId
-      }
+        account: pilot.stripeAccountId,
+      },
     });
     // Add the Stripe charge reference to the ride and save it.
     ride.stripeChargeId = charge.id;
@@ -91,7 +95,7 @@ router.post('/rides', pilotRequired, async (req, res) => {
     res.sendStatus(402);
     next(`Error adding token to customer: ${err.message}`);
   }
-  res.redirect('/pilots/dashboard');
+  res.redirect("/pilots/dashboard");
 });
 
 /**
@@ -99,23 +103,23 @@ router.post('/rides', pilotRequired, async (req, res) => {
  *
  * Display the signup form on the right step depending on the current completion.
  */
-router.get('/signup', (req, res) => {
-  let step = 'account';
+router.get("/signup", (req, res) => {
+  let step = "account";
   // Naive way to check which step we're on via presence of profile data.
   if (req.user) {
     if (
-      req.user.type === 'individual' ?
-        !req.user.firstName || !req.user.lastName :
-        !req.user.businessName
+      req.user.type === "individual"
+        ? !req.user.firstName || !req.user.lastName
+        : !req.user.businessName
     ) {
-      step = 'profile';
+      step = "profile";
     } else if (!req.user.stripeAccountId) {
-      step = 'payments'
+      step = "payments";
     } else {
-      step = 'done';
+      step = "done";
     }
   }
-  res.render('signup', { step: step });
+  res.render("signup", { step: step });
 });
 
 /**
@@ -123,11 +127,11 @@ router.get('/signup', (req, res) => {
  *
  * Create a user and update profile information during the pilot onboarding process.
  */
-router.post('/signup', (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   const body = Object.assign({}, req.body, {
     // Use `type` instead of `pilot-type` for saving to the DB.
-    type: req.body['pilot-type'],
-    'pilot-type': undefined,
+    type: req.body["pilot-type"],
+    "pilot-type": undefined,
   });
 
   // Check if we have a logged-in pilot.
@@ -138,13 +142,15 @@ router.post('/signup', (req, res, next) => {
     pilot.save((err, pilot) => {
       if (err) {
         // Show an error message to the user.
-        const errors = Object.keys(err.errors).map(field => err.errors[field].message);
-        res.render('signup', { step: 'account', error: errors[0] });
+        const errors = Object.keys(err.errors).map(
+          field => err.errors[field].message
+        );
+        res.render("signup", { step: "account", error: errors[0] });
       } else {
         // Sign in and redirect to continue the signup process.
         req.logIn(pilot, error => {
           if (err) next(err);
-          return res.redirect('/pilots/signup');
+          return res.redirect("/pilots/signup");
         });
       }
     });
@@ -153,7 +159,7 @@ router.post('/signup', (req, res, next) => {
     pilot.set(body);
     pilot.save((err, pilot) => {
       if (err) next(err);
-      return res.redirect('/pilots/signup');
+      return res.redirect("/pilots/signup");
     });
   }
 });
@@ -163,8 +169,8 @@ router.post('/signup', (req, res, next) => {
  *
  * Simple pilot login.
  */
-router.get('/login', (req, res) => {
-  res.render('login');
+router.get("/login", (req, res) => {
+  res.render("login");
 });
 
 /**
@@ -172,10 +178,11 @@ router.get('/login', (req, res) => {
  *
  * Simple pilot login.
  */
-router.post('/login',
-  passport.authenticate('pilot-login', {
-    successRedirect: '/pilots/dashboard',
-    failureRedirect: '/pilots/login'
+router.post(
+  "/login",
+  passport.authenticate("pilot-login", {
+    successRedirect: "/pilots/dashboard",
+    failureRedirect: "/pilots/login",
   })
 );
 
@@ -184,9 +191,9 @@ router.post('/login',
  *
  * Delete the pilot from the session.
  */
-router.get('/logout', (req, res) => {
+router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.redirect("/");
 });
 
 // Serialize pilots sessions for Passport.
@@ -200,23 +207,32 @@ passport.deserializeUser((id, callback) => {
 });
 
 // Define the login strategy for pilots based on email and password.
-passport.use('pilot-login', new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password'
-}, function(email, password, done) {
-  Pilot.findOne({
-    email: email
-  }, function(err, user) {
-    if (err) return done(err);
-    if (!user) {
-      return done(null, false, { message: 'Unknown user' });
+passport.use(
+  "pilot-login",
+  new LocalStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password",
+    },
+    function(email, password, done) {
+      Pilot.findOne(
+        {
+          email: email,
+        },
+        function(err, user) {
+          if (err) return done(err);
+          if (!user) {
+            return done(null, false, { message: "Unknown user" });
+          }
+          if (!user.validatePassword(password)) {
+            return done(null, false, { message: "Invalid password" });
+          }
+          return done(null, user);
+        }
+      );
     }
-    if (!user.validatePassword(password)) {
-      return done(null, false, { message: 'Invalid password' });
-    }
-    return done(null, user);
-  });
-}));
+  )
+);
 
 // Function that returns a test card token for Stripe.
 function getTestSource(trigger) {
@@ -224,14 +240,14 @@ function getTestSource(trigger) {
   // to trigger a special behavior. This is NOT how you would create real payments!
   // You should use Stripe Elements or Stripe iOS/Android SDKs to tokenize card numbers.
   // Use a static token based on a test card.
-  var source = 'tok_visa';
+  var source = "tok_visa";
   // Change the test card token if a specific trigger is requested.
-  if (trigger === 'immediate-balance') {
-    source = 'tok_bypassPending';
-  } else if (trigger === 'account-verification') {
-    source = 'tok_visa_triggerVerification';
-  } else if (trigger === 'payout-limit') {
-    source = 'tok_visa_triggerTransferBlock';
+  if (trigger === "immediate-balance") {
+    source = "tok_bypassPending";
+  } else if (trigger === "account-verification") {
+    source = "tok_visa_triggerVerification";
+  } else if (trigger === "payout-limit") {
+    source = "tok_visa_triggerTransferBlock";
   }
   return source;
 }
