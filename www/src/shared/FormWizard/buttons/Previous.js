@@ -1,8 +1,5 @@
-import React from 'react'
-import {
-  Button,
-} from 'semantic-ui-react'
-
+import React from "react";
+import { Button } from "semantic-ui-react";
 
 class Previous extends React.Component {
   constructor(props) {
@@ -10,16 +7,20 @@ class Previous extends React.Component {
   }
 
   render() {
-    const { isActive } = this.props
+    const { isActive } = this.props;
     if (isActive) {
       return (
-        <Button onClick={() => this.props.goToPreviousStep()} color='red' size='large'>
+        <Button
+          onClick={() => this.props.goToPreviousStep()}
+          color="red"
+          size="large"
+        >
           Previous
         </Button>
-      )
+      );
     }
-    return null
+    return null;
   }
 }
 
-export { Previous }
+export { Previous };

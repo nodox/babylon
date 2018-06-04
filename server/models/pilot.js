@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const bcrypt = require('bcryptjs');
-const Ride = require('./ride');
+const bcrypt = require("bcryptjs");
+const Ride = require("./ride");
 
 // Use native promises.
 mongoose.Promise = global.Promise;
@@ -13,19 +13,23 @@ const PilotSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 
-  type: { type: String, default: 'individual', enum: ['individual', 'company'] },
+  type: {
+    type: String,
+    default: "individual",
+    enum: ["individual", "company"],
+  },
 
   firstName: String,
   lastName: String,
   address: String,
   postalCode: String,
   city: String,
-  country: { type: String, default: 'US' },
+  country: { type: String, default: "US" },
   created: { type: Date, default: Date.now },
   rocket: {
     model: String,
     license: String,
-    color: String
+    color: String,
   },
   businessName: String,
 
@@ -35,7 +39,7 @@ const PilotSchema = new Schema({
 
 // Return a pilot name for display.
 PilotSchema.methods.displayName = function() {
-  if (this.type === 'company') {
+  if (this.type === "company") {
     return this.businessName;
   } else {
     return `${this.firstName} ${this.lastName}`;
@@ -44,9 +48,9 @@ PilotSchema.methods.displayName = function() {
 
 // List rides of the past week for the pilot.
 PilotSchema.methods.listRecentRides = function() {
-  const weekAgo = Date.now() - (7*24*60*60*1000);
+  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   return Ride.find({ pilot: this, created: { $gte: weekAgo } })
-    .populate('passenger')
+    .populate("passenger")
     .sort({ created: -1 })
     .exec();
 };
@@ -76,22 +80,22 @@ PilotSchema.statics.getLatestOnboarded = function() {
 };
 
 // Make sure the email has not been used.
-PilotSchema.path('email').validate(function(email, callback) {
-  const Pilot = mongoose.model('Pilot');
+PilotSchema.path("email").validate(function(email, callback) {
+  const Pilot = mongoose.model("Pilot");
 
   // Check only when it is a new pilot or when the email has been modified.
-  if (this.isNew || this.isModified('email')) {
+  if (this.isNew || this.isModified("email")) {
     Pilot.find({ email: email }).exec(function(err, pilots) {
       callback(!err && pilots.length === 0);
     });
   } else callback(true);
-}, 'This email already exists. Please try to login instead.');
+}, "This email already exists. Please try to login instead.");
 
 // Pre-save hook to ensure consistency.
-PilotSchema.pre('save', function(next) {
+PilotSchema.pre("save", function(next) {
   // Make sure certain fields are blank depending on the pilot type.
-  if (this.isModified('type')) {
-    if (this.type === 'individual') {
+  if (this.isModified("type")) {
+    if (this.type === "individual") {
       this.businessName = null;
     } else {
       this.firstName = null;
@@ -99,12 +103,12 @@ PilotSchema.pre('save', function(next) {
     }
   }
   // Make sure the password is hashed before being stored.
-  if (this.isModified('password')) {
+  if (this.isModified("password")) {
     this.password = this.generateHash(this.password);
   }
   next();
 });
 
-const Pilot = mongoose.model('Pilot', PilotSchema);
+const Pilot = mongoose.model("Pilot", PilotSchema);
 
 module.exports = Pilot;

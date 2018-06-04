@@ -1,14 +1,10 @@
-import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react'
+import React from "react";
+import { Link, Route, Switch } from "react-router-dom";
+import { Menu } from "semantic-ui-react";
 
 class Signup extends React.Component {
   render() {
-    return (
-      <div>
-        Signup
-      </div>
-    );
+    return <div>Signup</div>;
   }
 }
 

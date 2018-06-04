@@ -1,13 +1,11 @@
-import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import Login from './Login'
-import Profile from './Profile'
-import Orders from './Orders'
-import StoreApp from '../store/StoreApp'
-
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import Login from "./Login";
+import Profile from "./Profile";
+import Orders from "./Orders";
+import StoreApp from "../store/StoreApp";
 
 class UserApp extends React.Component {
-
   render() {
     return (
       <Switch>

@@ -1,9 +1,8 @@
-import React from 'react';
-import { Link, Route, Redirect } from 'react-router-dom';
-import Product from './Product'
+import React from "react";
+import { Link, Route, Redirect } from "react-router-dom";
+import Product from "./Product";
 
 class ThemesApp extends React.Component {
-
   render() {
     return (
       <div>
