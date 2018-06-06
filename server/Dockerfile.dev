@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock ./
 RUN yarn
-COPY . ./usr/src/app
+COPY . ./
 
 EXPOSE 5000
 CMD ["npm", "run", "dev"]
