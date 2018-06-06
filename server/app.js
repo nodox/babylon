@@ -52,14 +52,6 @@ app.use((req, res, next) => {
 });
 app.locals.moment = moment;
 
-// CRUD routes for the pilot signup and dashboard.
-app.use("/pilots", require("./routes/pilots/pilots"));
-app.use("/pilots/stripe", require("./routes/pilots/stripe"));
-
-// API routes for rides and passengers used by the mobile app.
-app.use("/api/settings", require("./routes/api/settings"));
-app.use("/api/rides", require("./routes/api/rides"));
-app.use("/api/passengers", require("./routes/api/passengers"));
 
 app.post("/api/nodox/login", (req, res) => {
   const user = req.body;
@@ -72,10 +64,6 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-// Respond to the Google Cloud health check.
-app.get("/_ah/health", (req, res) => {
-  res.type("text").send("ok");
-});
 
 // Catch 404 errors and forward to error handler.
 app.use((req, res, next) => {
