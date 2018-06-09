@@ -39,9 +39,6 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Initialize Passport and restore any existing authentication state.
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Middleware that exposes the pilot object (if any) to views.
 app.use((req, res, next) => {
