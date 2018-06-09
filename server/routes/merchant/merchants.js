@@ -140,6 +140,33 @@ router.post("/stripe/payout", async (req, res) => {
   // Redirect to the merchant dashboard.
   res.redirect("/merchants/dashboard");
 });
+
+/**
+ * POST /merchants
+ *
+ */
+router.post("/", async (req, res) => {
+  // TODO: need to validate / saniztize fields
+  // TODO: need to validate address fields (USPS API ?)
+  const body = req.body;
+  const isCompany = body.type === "company";
+  const businessName = isCompany ? body.businessName : "";
+
+  const merchant = new Merchant({
+    email: body.email,
+
+    type: body.type,
+    firstName: body.firstName,
+    lastName: body.lastName,
+    address: body.address,
+    postalCode: body.postalCode,
+    city: body.city,
+    businessName: businessName,
+  });
+
+  await merchant.save();
+  res.status(201).json(merchant);
+});
 });
 
 module.exports = router;
