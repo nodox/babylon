@@ -51,6 +51,7 @@ app.locals.moment = moment;
 
 // CRUD routes for the user
 app.use('/customer', require('./routes/customer'));
+app.use('/api/merchants', require('./routes/merchant/merchants'));
 
 app.post("/api/nodox/login", (req, res) => {
   const user = req.body;
