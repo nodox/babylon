@@ -167,6 +167,34 @@ router.post("/", async (req, res) => {
   await merchant.save();
   res.status(201).json(merchant);
 });
+
+/**
+ * POST /merchants/items
+ *
+ */
+router.post("/items", async (req, res) => {
+  // TODO: need to validate / saniztize fields
+  const body = req.body;
+
+  // TODO: Figure out a way to package the item for purchase
+  // TODO: Store items in a private GitLab? Figure this out.
+  const item = new Item({
+    merchant: body.merchant.id,
+
+    repository: body.repository,
+    title: body.title,
+    description: body.description,
+    thumbnail: body.thumbnail,
+    license: body.license,
+
+    amount: body.price,
+  });
+
+  // Save the ride.
+  await item.save();
+
+  res.status(201).json(item);
+});
 });
 
 module.exports = router;
