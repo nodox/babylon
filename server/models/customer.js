@@ -33,7 +33,7 @@ CustomerSchema.methods.getOrders = function() {
 };
 
 // Return a passenger name for display.
-CustomerSchema.methods.createStripeCustomerAccount = function() {
+CustomerSchema.methods.createStripeCustomerAccount = async function() {
   try {
     const customer = await stripe.customers.create({
       email: this.email,
