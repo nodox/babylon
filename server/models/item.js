@@ -13,11 +13,12 @@ const ItemSchema = new Schema({
   // location where the item is store
   repository: String,
   title: String,
-  description: String,
+  readme: String,
   thumbnail: String,
+  image: String,
   license: String,
-
   amount: Number,
+  
   currency: { type: String, default: "usd" },
   created: { type: Date, default: Date.now },
 });
