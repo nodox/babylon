@@ -106,10 +106,40 @@ router.get("/stripe/transfers", async (req, res) => {
     return res.redirect("/merchants/signup");
   }
 });
+
+/**
+ * POST /merchants/stripe/payout
+ *
+ * Generate an instant payout with Stripe for the available balance.
+ */
+router.post("/stripe/payout", async (req, res) => {
+  const merchant = req.merchant;
+  try {
+    // Fetch the account balance for find available funds.
+    const balance = await stripe.balance.retrieve({
+      stripe_account: merchant.stripeAccountId,
     });
+    // This demo app only uses USD so we'll just use the first available balance.
+    // Note: There are as many balances as currencies used in your application.
+    const { amount, currency } = balance.available[0];
+    // Create the instant payout.
+    const payout = await stripe.payouts.create(
+      {
+        method: "instant",
+        amount: amount,
+        currency: currency,
+        statement_descriptor: config.appName,
+      },
+      {
+        stripe_account: merchant.stripeAccountId,
+      }
+    );
   } catch (err) {
     console.log(err);
   }
+  // Redirect to the merchant dashboard.
+  res.redirect("/merchants/dashboard");
+});
 });
 
 module.exports = router;
