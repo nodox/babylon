@@ -2,12 +2,12 @@
 
 const config = require("../../config");
 const stripe = require("stripe")(config.stripe.secretKey);
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
-const Pilot = require("../../models/pilot");
-const Ride = require("../../models/ride");
-const Passenger = require("../../models/passenger");
+const router = require("express").Router();
+const request = require("request");
+const querystring = require("querystring");
+const Merchant = require("../../models/merchant");
+const Item = require("../../models/item");
+const Order = require("../../models/order");
 
 /**
  * GET /pilots/dashboard
