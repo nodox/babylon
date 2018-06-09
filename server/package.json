@@ -18,9 +18,13 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,json,css,md}": ["prettier --write", "git add"]
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
+    "@octokit/rest": "^15.8.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
@@ -34,7 +38,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pug": "^2.0.0-rc.1",
-    "request": "^2.81.0",
+    "request": "^2.87.0",
     "stripe": "^4.23.0"
   },
   "devDependencies": {

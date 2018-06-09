@@ -8,18 +8,19 @@ mongoose.Promise = global.Promise;
 
 // Define the Item schema.
 const ItemSchema = new Schema({
-  merchant: { type: Schema.ObjectId, ref: "Merchant", required: true },
+  merchant: { type: Schema.Types.ObjectId, ref: "Merchant", required: true },
 
   // location where the item is store
-  bucket: String,
+  repository: String,
   title: String,
-  description: String,
+  readme: String,
   thumbnail: String,
-
+  image: String,
+  license: String,
   amount: Number,
+  
   currency: { type: String, default: "usd" },
   created: { type: Date, default: Date.now },
-
 });
 
 const Item = mongoose.model("Item", ItemSchema);

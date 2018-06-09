@@ -39,9 +39,6 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Initialize Passport and restore any existing authentication state.
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Middleware that exposes the pilot object (if any) to views.
 app.use((req, res, next) => {
@@ -54,6 +51,7 @@ app.locals.moment = moment;
 
 // CRUD routes for the user
 app.use('/customer', require('./routes/customer'));
+app.use('/api/merchants', require('./routes/merchant/merchants'));
 
 app.post("/api/nodox/login", (req, res) => {
   const user = req.body;
