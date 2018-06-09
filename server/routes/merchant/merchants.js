@@ -83,6 +83,29 @@ router.get("/stripe/token", async (req, res) => {
   );
 });
 
+/**
+ * GET /merchants/stripe/transfers
+ *
+ * Redirect to Stripe to view transfers and edit payment details.
+ */
+router.get("/stripe/transfers", async (req, res) => {
+  const merchant = req.merchant;
+  // Make sure the logged-in merchant had completed the Stripe onboarding.
+  if (!merchant.stripeAccountId) {
+    return res.redirect("/merchants/signup");
+  }
+  try {
+    // Generate a unique login link for the associated Stripe account.
+    const loginLink = await stripe.accounts.createLoginLink(
+      merchant.stripeAccountId
+    );
+    // Retrieve the URL from the response and redirect the user to Stripe.
+    return res.redirect(loginLink.url);
+  } catch (err) {
+    console.log("Failed to create a Stripe login link.");
+    return res.redirect("/merchants/signup");
+  }
+});
     });
   } catch (err) {
     console.log(err);
