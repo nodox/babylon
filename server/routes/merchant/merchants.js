@@ -195,6 +195,66 @@ router.post("/items", async (req, res) => {
 
   res.status(201).json(item);
 });
+
+/**
+ * POST /merchants/orders
+ *
+ * Create a new Order for an item
+ */
+router.post("/orders", async (req, res) => {
+
+  const item = req.body.item;
+  const customer = req.body.customer;
+  const merchant = item.merchant;
+
+
+  const order = new Order({
+
+    customer: customer.id,
+    merchant: item.merchant.id,
+    item: item.id,
+
+    // TODO: Needs percentage for the platform logic
+    amount: item.price,
+  });
+
+  // TODO: Need a way to add item back into the users and merchants
+  // dashboard so they can do something with that info (download or edit)
+
+  // Save the order.
+  await order.save();
+
+
+  try {
+    // TODO: Figure out if we need to manually create a charge
+    // if we are using stripe checkout.js on the frontend.
+    const charge = await stripe.charges.create({
+      source: source, // TODO: use Stripe Elements to get source token
+      amount: order.amount,
+      currency: order.currency,
+      description: config.appName,
+      statement_descriptor: config.appName,
+      // The destination parameter directs the funds.
+      destination: {
+        // Send the amount for the pilot after collecting a 20% platform fee.
+        // Typically, the `amountForPilot` method simply computes `order.amount * 0.8`.
+        amount: order.amountForPilot(),
+        // The destination of this charge is the pilot's Stripe account.
+        account: merchant.stripeAccountId
+      }
+    });
+
+    // Add the Stripe charge reference to the order and save it.
+    order.stripeChargeId = charge.id;
+    order.save();
+  } catch (err) {
+    console.log(err);
+    // Return a 402 Payment Required error code.
+    res.sendStatus(402);
+    next(`Error adding token to customer: ${err.message}`);
+  }
+
+  res.status(201).json(order);
 });
 
 module.exports = router;
