@@ -43,9 +43,46 @@ router.get("/stripe/authorize", (req, res) => {
 });
 
 /**
+ * GET /merchants/stripe/token
  *
+ * Redirect here from Stripe Connect to add the new Stripe account to the merchant.
  */
+router.get("/stripe/token", async (req, res) => {
+  // Check the state we got back equals the one we generated before proceeding.
+
+  // TODO: redirect back to WWW merchant store
+  if (req.session.state != req.query.state) {
+    res.redirect("/");
+  }
+
+  // Post the authorization code to Stripe to complete the authorization flow.
+  request.post(
+    config.stripe.tokenUri,
+    {
+      form: {
+        grant_type: "authorization_code",
+        client_id: config.stripe.clientId,
+        client_secret: config.stripe.secretKey,
+        code: req.query.code,
       },
+      json: true,
+    },
+    (err, response, body) => {
+      if (err || body.error) {
+        console.log("The Stripe onboarding process has not succeeded.");
+      } else {
+        // Update the model and store the Stripe account ID in the datastore.
+        // This Stripe account ID will be used to pay out to the merchant.
+        req.merchant.stripeAccountId = body.stripe_user_id;
+        req.merchant.save();
+      }
+      // Redirect to the final stage.
+      // TODO: Redirect to the merchant store on WWW
+      res.redirect("/merchants/signup");
+    }
+  );
+});
+
     });
   } catch (err) {
     console.log(err);
