@@ -24,6 +24,7 @@
     ]
   },
   "dependencies": {
+    "@octokit/rest": "^15.8.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
