@@ -49,7 +49,7 @@ export class Sidemenu extends React.Component {
       >
         <AppContext.Consumer>
           {context => {
-            if (!!context.user) {
+            if (!!context.customer) {
               return <AuthenticatedMenu context={context} />;
             } else {
               return <PublicMenu />;

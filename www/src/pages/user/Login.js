@@ -20,7 +20,7 @@ const LoginView = props => {
   } else if (props.isSignedIn) {
     view = (
       <div>
-        Hello {props.context.user.givenName}. You are now signed In!
+        Hello {props.context.customer.firstName}. You are now signed In!
         <a onClick={() => props.context.logout()}>Sign-out</a>
       </div>
     );
@@ -33,7 +33,7 @@ const responseGoogle = async (googleResponse, ctx) => {
   const user = googleResponse;
 
   try {
-    const url = `http://localhost:5000/api/nodox/login`;
+    const url = `http://localhost:5000/api/customers`;
     const response = await axios.post(url, user);
     ctx.login(response.data);
   } catch (e) {

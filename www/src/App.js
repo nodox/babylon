@@ -19,23 +19,23 @@ import StyledPushable from "./components/StyledPushable";
 class App extends Component {
   state = {
     isSignedIn: undefined,
-    user: undefined,
+    customer: undefined,
     visible: false,
   };
 
   toggleVisibility = () => this.setState({ visible: !this.state.visible });
 
-  login = user => {
+  login = customer => {
     this.setState({
-      isSignedIn: !!user,
-      user: user,
+      isSignedIn: !!customer,
+      customer: customer,
     });
   };
 
-  logout = user => {
+  logout = customer => {
     this.setState({
       isSignedIn: undefined,
-      user: undefined,
+      customer: undefined,
     });
   };
 
