@@ -53,13 +53,7 @@ app.use((req, res, next) => {
 app.locals.moment = moment;
 
 // CRUD routes for the user
-app.use('/customer', require('./routes/customer'));
-
-app.post("/api/nodox/login", (req, res) => {
-  const user = req.body;
-  const { profileObj } = user;
-  return res.status(200).json(profileObj);
-});
+app.use('/api', require("./customer").routes);
 
 // Index page for Rocket Rides.
 app.get("/", (req, res) => {
