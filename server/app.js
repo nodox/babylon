@@ -11,6 +11,8 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const moment = require("moment");
 const cors = require("cors");
+const axios = require("axios");
+const querystring = require("querystring");
 
 const app = express();
 app.set("trust proxy", true);
@@ -53,13 +55,35 @@ app.use((req, res, next) => {
 app.locals.moment = moment;
 
 // CRUD routes for the user
-app.use('/api', require("./customer").routes);
+app.use("/api", require("./customer").routes);
+app.get("/api/github/oauth/authorize", async (req, res) => {
+  // http://blog.vjeux.com/2012/javascript/github-oauth-login-browser-side.html
+
+  const { code, state } = req.query;
+  // TODO: compare client and server state string to prevent CSRF
+
+  let result = null;
+
+  try {
+    result = await axios.post("https://github.com/login/oauth/access_token", {
+      client_id: "7f3a16b13129a94ba10e",
+      client_secret: "1a7affa3d5a414f1a3f68b3bc25a58c10a12061d",
+      code: code,
+      state: state,
+    });
+
+    const { access_token, scope, token_type } = querystring.parse(result.data);
+
+    res.redirect("http://localhost:3000/user/store");
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 // Index page for Rocket Rides.
 app.get("/", (req, res) => {
   res.render("index");
 });
-
 
 // Catch 404 errors and forward to error handler.
 app.use((req, res, next) => {
