@@ -35,7 +35,7 @@ export class Navbar extends React.Component {
     return (
       <AppContext.Consumer>
         {context => {
-          if (!!context.user) {
+          if (!!context.customer) {
             return <AuthenticatedMenu />;
           } else {
             return <PublicMenu />;

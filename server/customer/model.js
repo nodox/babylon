@@ -3,7 +3,7 @@
 const config = require('../config');
 const stripe = require('stripe')(config.stripe.secretKey);
 const mongoose = require('mongoose');
-const Order = require('./order');
+const Order = require('../models/order');
 const Schema = mongoose.Schema;
 
 // Use native promises.
@@ -14,6 +14,7 @@ const CustomerSchema = new Schema({
   email: { type: String, required: true, unique: true },
   firstName: String,
   lastName: String,
+  profileImage: String,
   created: { type: Date, default: Date.now },
 
   // Stripe customer ID storing the payment sources.
@@ -32,8 +33,26 @@ CustomerSchema.methods.getOrders = function() {
     .exec();
 };
 
+// Make sure the email has not been used.
+CustomerSchema.path('email').validate({
+  isAsync: true,
+  validator: function(email, callback) {
+    const Customer = mongoose.model('Customer');
+    // Check only when it is a new customer or when the email has been modified.
+
+    if (this.isNew || this.isModified('email')) {
+      Customer.find({ email: email }).exec(function(err, customer) {
+        callback(!err && customer.length === 0);
+      });
+    } else {
+      callback(true);
+    }
+  },
+  message: 'This email already exists. Please try to login instead.',
+});
+
 // Return a passenger name for display.
-CustomerSchema.methods.createStripeCustomerAccount = function() {
+CustomerSchema.methods.createStripeCustomerAccount = async function() {
   try {
     const customer = await stripe.customers.create({
       email: this.email,
