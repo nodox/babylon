@@ -26,7 +26,7 @@ export class Navbar extends React.Component {
         <Menu.Item as={Link} to="/">
           Home
         </Menu.Item>
-        <Menu.Item as={Link} to="/user/login">
+        <Menu.Item as={Link} to="/login">
           Login
         </Menu.Item>
       </Menu>

@@ -5,9 +5,11 @@ import { Menu, Sidebar, Icon } from "semantic-ui-react";
 import { Navbar } from "./components/Navbar";
 import { AppContext } from "./context/AppContext";
 
-import HomeApp from "./pages/home/HomeApp";
+import AuthApp from "./pages/auth/AuthApp";
 import UserApp from "./pages/user/UserApp";
 import ThemesApp from "./pages/themes/ThemesApp";
+import Index from "./pages/Index";
+
 import { Sidemenu } from "./components/Sidemenu";
 import StyledPushable from "./components/StyledPushable";
 
@@ -60,7 +62,9 @@ class App extends Component {
                 <Icon name="sidebar" />
               </Menu.Item>
             </Menu>
-            <Route exact path="/" component={HomeApp} />
+
+            <Route exact path="/" component={Index} />
+            <Route path="/auth" component={AuthApp} />
             <Route path="/user" component={UserApp} />
             <Route path="/themes" component={ThemesApp} />
           </Sidebar.Pusher>
