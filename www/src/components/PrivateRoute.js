@@ -37,7 +37,7 @@ class PrivateRoute extends React.Component {
           authenticated ? (
             <Component {...props} />
           ) : (
-            <Redirect from={`${props.match.path}`} to={`/user/login`} />
+            <Redirect from={`${props.match.path}`} to={`/login`} />
           )
         }
       />
